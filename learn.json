@@ -11,5 +11,5 @@
   "preview": "",
   "projectType": "template",
   "difficulty": "beginner",
-  "technologies": ["Python"]
+  "technologies": ["Python", "git"]
 }
