@@ -1,23 +1,57 @@
-# Python Hello
+# Agente de Inventario con IA
 
-El boilerplate más básico para comenzar un proyecto en Python en 4Geeks. Inicia tu primer proyecto en Python desde cero.
+Este proyecto tiene dos procesos que trabajan juntos:
 
-## ¿Qué hacer a continuación?
-
-Abre el archivo `main.py` y comienza a escribir tu código.
-
-Ejecuta tu código escribiendo el siguiente comando en tu terminal:
-
-```bash
-$ python main.py
-```
-
-Puedes crear e incluir tantos archivos de Python (también conocidos como módulos) como desees utilizando las declaraciones de importación.
+- Una API REST con FastAPI en [api/app.py](/workspaces/MarcJuvanteny_python-hello/api/app.py) que guarda el inventario en `products.csv`.
+- Un agente CLI en [agent.py](/workspaces/MarcJuvanteny_python-hello/agent.py) que usa la API como tools y registra cada paso en `conversation_log.csv`.
 
 ## Requisitos
 
-Asegúrate de tener Python instalado en tu computadora. Te recomendamos encarecidamente [instalar Python a través de Pyenv](https://4geeks.com/es/how-to/que-es-pyenv-y-como-instalar-pyenv) para evitar conflictos de versiones en el futuro.
+- Python 3.10 o superior.
+- Una clave de Groq guardada en `.env`.
 
-### Contribuidores
+Instala las dependencias:
 
-Esta plantilla fue creada como parte de los [Recursos de Python de 4Geeks](https://4geeks.com/es/technology/python) para el aprendizaje en [4Geeks.com](https://4geeks.com) por [Alejandro Sanchez](https://twitter.com/alesanchezr) y [muchos otros contribuyentes](https://github.com/4GeeksAcademy/python-hello/graphs/contributors).
+```bash
+pip install fastapi uvicorn openai requests python-dotenv
+```
+
+Crea un archivo `.env` en la raiz del proyecto:
+
+```env
+GROQ_API_KEY=tu_clave_aqui
+```
+
+Asegurate de incluir `.env` en `.gitignore`.
+
+## Como arrancarlo
+
+Necesitas dos terminales.
+
+Terminal 1, arranca la API:
+
+```bash
+uvicorn api.app:app --reload
+```
+
+Terminal 2, arranca el agente:
+
+```bash
+python agent.py
+```
+
+La API debe estar en ejecucion antes de arrancar el agente.
+
+## Endpoints de la API
+
+- `GET /inventory`: lista completa del inventario.
+- `POST /inventory`: crea un producto con `name`, `quantity` y `unit`.
+- `PATCH /inventory/{product_id}`: actualiza el stock usando `delta`.
+- `GET /inventory/alerts`: devuelve productos por debajo de un umbral configurable, por defecto `10`.
+
+## Ejemplos de mensajes
+
+- `Anade 30 litros de leche de avena`
+- `Vendimos 12 unidades de vasos termicos`
+- `Que productos estan por agotarse?`
+- `Ensename el inventario completo`
