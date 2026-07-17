@@ -41,8 +41,14 @@ def add_one_task(title):
 
 
 def delete_task(number_to_delete):
-    """Stub"""
-    pass
+    """Elimina la tarea en la posicion number_to_delete (1-indexed). Luego guarda."""
+    if number_to_delete < 1 or number_to_delete > len(TODO_LIST):
+        print(f"Error: La posicion {number_to_delete} no es valida.")
+        return
+
+    removed = TODO_LIST.pop(number_to_delete - 1)
+    save_todos()
+    print(f"Tarea '{removed}' eliminada correctamente.")
 
 
 def print_list():
@@ -56,13 +62,43 @@ def print_list():
 
 
 def show_menu():
-    """Stub"""
-    pass
+    """Muestra el menu de opciones."""
+    print("\n=== GESTOR DE TAREAS ===")
+    print("1. Agregar tarea")
+    print("2. Listar tareas")
+    print("3. Eliminar tarea")
+    print("4. Salir")
 
 
 def main():
-    """Stub"""
-    pass
+    """Bucle principal del programa."""
+    global TODO_LIST
+    TODO_LIST = load_todos()
+
+    while True:
+        show_menu()
+        opcion = input("\nSelecciona una opcion: ").strip()
+
+        if opcion == "1":
+            titulo = input("Ingresa el titulo de la tarea: ").strip()
+            add_one_task(titulo)
+
+        elif opcion == "2":
+            print_list()
+
+        elif opcion == "3":
+            try:
+                num = int(input("Ingresa el numero de la tarea a eliminar: ").strip())
+                delete_task(num)
+            except ValueError:
+                print("Error: Debes ingresar un numero valido.")
+
+        elif opcion == "4":
+            print("¡Hasta luego!")
+            break
+
+        else:
+            print("Error: Opcion no valida. Intenta de nuevo.")
 
 
 if __name__ == "__main__":
