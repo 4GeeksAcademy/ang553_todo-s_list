@@ -30,8 +30,14 @@ def save_todos():
 
 
 def add_one_task(title):
-    """Stub"""
-    pass
+    """Agrega una tarea a TODO_LIST si el titulo no esta vacio. Luego guarda."""
+    if not title.strip():
+        print("Error: El titulo no puede estar vacio.")
+        return
+
+    TODO_LIST.append(title)
+    save_todos()
+    print(f"Tarea '{title}' agregada correctamente.")
 
 
 def delete_task(number_to_delete):
@@ -40,8 +46,13 @@ def delete_task(number_to_delete):
 
 
 def print_list():
-    """Stub"""
-    pass
+    """Imprime las tareas de TODO_LIST numeradas desde 1."""
+    if not TODO_LIST:
+        print("No hay tareas pendientes.")
+        return
+
+    for i, task in enumerate(TODO_LIST):
+        print(f"{i + 1}. {task}")
 
 
 def show_menu():
